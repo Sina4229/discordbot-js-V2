@@ -1,5 +1,4 @@
 const { Client , Intents , Collection} = require('discord.js')
-const client = new Client({intents:32767})  
 module.exports = client;
 const fs = require('fs')
 const { prefix , token, mongo_url} = require('./config.json')
@@ -12,6 +11,26 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 Levels.setURL(mongo_url)
+const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] })
+const dotenv = require('dotenv'); 
+dotenv.config();
+
+if (process.env.TOKEN == null) {
+    console.log("An discord token is empty.");
+    sleep(60000).then(() => console.log("Service is getting stopped automatically"));
+    return 0;
+}
+
+const discordLogin = async() => {
+    try {
+        await client.login(process.env.TOKEN);  
+    } catch (TOKEN_INVALID) {
+        console.log("An invalid token was provided");
+        sleep(60000).then(() => console.log("Service is getting stopped automatically"));
+    }
+}
+
+discordLogin();
 
 mongoose.connect(mongo_url,{
 }).then(console.log("데이터베이스 연결 완료"))

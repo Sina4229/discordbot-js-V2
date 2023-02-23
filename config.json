@@ -1,0 +1,5 @@
+{
+  "prefix":os.environ['PREFIX']
+  "token":os.environ['TOKEN']
+  "mongo_url":os.environ['mongo_url']
+}
